@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #38bdf8;
+  --color-background-dark: #0f172a;
+  --color-card-dark: #1e293b;
+  --color-text-main: #e2e8f0;
+  --color-text-secondary: #94a3b8;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #0f172a;
+  --card: #f8fafc;
+  --card-foreground: #0f172a;
+  --border: #e2e8f0;
+  --accent: #3b82f6;
+  --secondary-text: #64748b;
+}
+
+[data-theme='dark'] {
+  --background: #0f172a;
+  --foreground: #e2e8f0;
+  --card: #1e293b;
+  --card-foreground: #e2e8f0;
+  --border: #334155;
+  --accent: #38bdf8;
+  --secondary-text: #94a3b8;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='dark'] .glass {
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.section-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20;
+}
+
+.btn-primary {
+  @apply inline-flex items-center px-6 py-3 border border-transparent text-base font-bold rounded-xl shadow-lg shadow-sky-500/20 text-white bg-sky-500 hover:bg-sky-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-all duration-300 transform hover:scale-105 active:scale-95;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center px-6 py-3 border border-slate-700 text-base font-bold rounded-xl text-slate-300 bg-slate-800/50 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-all duration-300;
+}
+
+.text-gradient {
+  @apply bg-gradient-to-r from-sky-400 to-blue-500 bg-clip-text text-transparent;
+}
+
+.skill-bar-bg {
+  @apply w-full h-2 bg-slate-800 rounded-full overflow-hidden;
+}
+
+.skill-bar-fill {
+  @apply h-full bg-sky-500 rounded-full transition-all duration-1000 ease-out;
+}
