@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import SectionTitle from './SectionTitle';
 import { ExternalLink, Award } from 'lucide-react';
@@ -78,24 +79,29 @@ const certificates = [
 ];
 
 const Certificates = () => {
+  const [showAll, setShowAll] = useState(false);
+  const displayedCertificates = showAll ? certificates : certificates.slice(0, 3);
+
   return (
-    <section id="certificates" className="py-24 bg-slate-900/10">
-      <div className="section-container">
+    <section id="certificates" className="py-24 bg-transparent">
+      <div className="section-container relative z-10">
         <SectionTitle 
           title="Certifications" 
           subtitle="A showcase of my professional credentials and specialized training." 
         />
         
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {certificates.map((cert, idx) => (
+          {displayedCertificates.map((cert, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: idx * 0.1 }}
-              viewport={{ once: true }}
-              className="group bg-[#111827] rounded-3xl overflow-hidden border border-slate-800 shadow-2xl flex flex-col h-full transform transition-all duration-500 hover:-translate-y-2 hover:shadow-sky-500/10"
+              className="group bg-[#141414] rounded-2xl overflow-hidden border border-white/5 flex flex-col h-full transform transition-all duration-500 hover:-translate-y-2 hover:bg-[#1a1a1a] hover:border-[#3a3a3a] relative"
             >
+              {/* Background ambient glow on hover */}
+              <div className="absolute inset-0 bg-gradient-to-b from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
               {/* Top Thumbnail Section */}
               <div className="relative h-56 overflow-hidden">
                 <img 
@@ -103,25 +109,25 @@ const Certificates = () => {
                   alt={cert.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#111827] via-transparent to-transparent opacity-60" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-[#141414]/80 to-transparent opacity-90" />
                 
                 {/* Issuer Badge */}
                 <div className="absolute top-4 left-4">
-                  <span className="px-4 py-1.5 bg-blue-600/90 backdrop-blur-md rounded-full text-[10px] font-black text-white uppercase tracking-widest shadow-lg">
+                  <span className="px-4 py-1.5 bg-gradient-to-r from-purple-600/90 to-pink-600/90 backdrop-blur-md rounded-full text-[10px] font-black text-white uppercase tracking-widest shadow-[0_0_15px_rgba(168,85,247,0.5)]">
                     {cert.issuer}
                   </span>
                 </div>
 
                 {/* Date Overlay */}
-                <div className="absolute bottom-4 right-4 text-white/80 font-bold text-xs">
+                <div className="absolute bottom-4 right-4 text-white/80 font-bold text-xs bg-[#111111]/80 px-3 py-1 rounded-lg backdrop-blur-md border border-white/10">
                   {cert.year}
                 </div>
               </div>
 
               {/* Content Section */}
-              <div className="p-8 flex flex-col flex-grow">
+              <div className="p-8 flex flex-col flex-grow z-10">
                 <div className="flex justify-between items-start gap-4 mb-4">
-                  <h3 className="text-xl font-black text-sky-400 leading-tight group-hover:text-sky-300 transition-colors">
+                  <h3 className="text-xl font-black text-white leading-tight group-hover:text-purple-400 transition-colors">
                     {cert.title}
                   </h3>
                   {cert.link && (
@@ -129,33 +135,46 @@ const Certificates = () => {
                       href={cert.link} 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="text-slate-500 hover:text-white transition-colors pt-1"
+                      className="text-slate-500 hover:text-pink-400 transition-colors pt-1"
                     >
                       <ExternalLink size={18} />
                     </a>
                   )}
                 </div>
 
-                <p className="text-slate-400 text-sm leading-relaxed mb-8 flex-grow italic">
+                <p className="text-slate-400 text-sm leading-relaxed mb-8 flex-grow">
                   {cert.description}
                 </p>
 
                 {/* Footer Info */}
-                <div className="flex justify-between items-center pt-6 border-t border-slate-800">
+                <div className="flex justify-between items-center pt-6 border-t border-white/5">
                   <div className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] flex items-center gap-2">
-                    <Award size={14} className="text-sky-500" />
+                    <Award size={14} className="text-purple-500" />
                     {cert.issuer}
                   </div>
-                  <div className="text-[10px] font-black text-blue-400 uppercase tracking-widest">
+                  <div className="text-[10px] font-black text-pink-400 uppercase tracking-widest">
                     {cert.year}
                   </div>
                 </div>
               </div>
 
-
             </motion.div>
           ))}
         </div>
+
+        {certificates.length > 3 && (
+          <div className="mt-16 flex justify-center">
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className="group relative px-8 py-3 bg-transparent overflow-hidden rounded-full border border-purple-500/30 hover:border-purple-400 transition-colors duration-300"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+              <span className="relative text-purple-400 group-hover:text-purple-300 font-bold tracking-widest uppercase text-xs flex items-center gap-2">
+                {showAll ? 'Show Less' : 'View More'}
+              </span>
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

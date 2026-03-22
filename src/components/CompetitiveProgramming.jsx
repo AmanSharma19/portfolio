@@ -11,7 +11,7 @@ const platforms = [
 
 const CompetitiveProgramming = () => {
   return (
-    <section id="competitive" className="py-20 bg-slate-50 dark:bg-slate-900/40">
+    <section id="competitive" className="py-20 bg-transparent">
       <div className="section-container">
         <SectionTitle 
           title="Competitive Programming" 
@@ -30,7 +30,7 @@ const CompetitiveProgramming = () => {
               whileHover={{ y: -5 }}
               transition={{ duration: 0.3, delay: idx * 0.1 }}
               viewport={{ once: true }}
-              className="flex flex-col items-center bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 w-48 hover:shadow-xl transition-all"
+              className="flex flex-col items-center bg-[#141414] p-6 rounded-2xl shadow-sm border border-white/5 w-48 hover:shadow-xl transition-all hover:bg-[#1a1a1a]"
             >
               <img src={platform.logo} alt={platform.name} className="w-16 h-16 mb-4 filter dark:brightness-110 grayscale hover:grayscale-0 transition-all duration-300" />
               <h3 className="font-bold text-slate-900 dark:text-white mb-1">{platform.name}</h3>

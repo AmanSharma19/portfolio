@@ -19,13 +19,13 @@
   --secondary-text: #64748b;
 }
 
-[data-theme='dark'] {
-  --background: #0f172a;
-  --foreground: #e2e8f0;
-  --card: #1e293b;
-  --card-foreground: #e2e8f0;
-  --border: #334155;
-  --accent: #38bdf8;
+.dark {
+  --background: #0a0a0a;
+  --foreground: #f8fafc;
+  --card: #141414;
+  --card-foreground: #f8fafc;
+  --border: rgba(255, 255, 255, 0.05);
+  --accent: #a855f7;
   --secondary-text: #94a3b8;
 }
 
@@ -36,16 +36,26 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-.glass {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+.animate-pulse-slow {
+  animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-[data-theme='dark'] .glass {
-  background: rgba(30, 41, 59, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+@keyframes grid-motion {
+  0% { transform: perspective(100vh) rotateX(60deg) scale(2.5) translateY(0px); }
+  100% { transform: perspective(100vh) rotateX(60deg) scale(2.5) translateY(50px); }
+}
+
+.glass {
+  background: rgba(10, 10, 10, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dark .glass {
+  background: rgba(10, 10, 10, 0.4);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .section-container {
@@ -53,15 +63,15 @@ body {
 }
 
 .btn-primary {
-  @apply inline-flex items-center px-6 py-3 border border-transparent text-base font-bold rounded-xl shadow-lg shadow-sky-500/20 text-white bg-sky-500 hover:bg-sky-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-all duration-300 transform hover:scale-105 active:scale-95;
+  @apply inline-flex items-center px-6 py-3 border border-transparent text-base font-bold rounded-xl shadow-lg shadow-purple-500/20 text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-300 transform hover:scale-105 active:scale-95;
 }
 
 .btn-secondary {
-  @apply inline-flex items-center px-6 py-3 border border-slate-700 text-base font-bold rounded-xl text-slate-300 bg-slate-800/50 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-all duration-300;
+  @apply inline-flex items-center px-6 py-3 border border-white/5 text-base font-bold rounded-xl text-slate-300 bg-[#141414]/80 hover:bg-[#141414] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-300;
 }
 
 .text-gradient {
-  @apply bg-gradient-to-r from-sky-400 to-blue-500 bg-clip-text text-transparent;
+  @apply bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent;
 }
 
 .skill-bar-bg {

@@ -1,89 +1,115 @@
 import { motion } from 'framer-motion';
 import SectionTitle from './SectionTitle';
-import { Briefcase, Calendar, Terminal, Link as LinkIcon } from 'lucide-react';
 
 const experiences = [
   {
-    title: 'Data Analytics Essentials',
-    company: 'Centre of Professional Enhancement LPU',
-    location: 'Jalandhar, Punjab',
-    period: "Jun' 25 - Jul' 25",
-    link: 'https://files.lpu.in/umsweb/skilldevcourse/SkillDevelopmentCertificates/12309783_896_20_08_2025.pdf?_gl=1*1l5jui0',
+    title: 'Winter PEP Training',
+    company: 'Test Yantra',
+    period: "Jan '26 – Feb '26",
     description: [
-      'Conducted comprehensive data extraction, cleaning, and preprocessing activities using SQL and Python, ensuring well-structured and high-quality datasets for further analytical workflows.',
-      'Designed, developed, and refined interactive dashboards and visual analytics reports in Power BI and Tableau to present insights clearly and support data-driven decision-making.',
-      'Utilized advanced Excel functions, pivot tables, data modeling features, and visualization tools to analyze large datasets, identify patterns, and communicate findings effectively.'
+      'Completed intensive full-stack training covering Core Java and Advanced Java concepts',
+      'Developed backend applications using Hibernate, Spring MVC, Spring JPA, and Spring Boot',
+      'Gained hands-on experience with AWS services including EC2, S3, RDS, Lambda, and IAM',
+      'Deployed and managed applications on cloud infrastructure with secure access control using IAM',
+      'Trained under domain experts across Java backend frameworks and cloud technologies'
     ],
-    techStack: 'Python, SQL, Tableau, Power BI, Excel'
+    stats: [
+      { value: '150+', label: 'Hours' },
+      { value: 'Java Full Stack', label: 'Stack' },
+      { value: 'EC2, S3, RDS, Lambda, IAM', label: 'AWS' }
+    ]
+  },
+  {
+    title: 'Summer Training',
+    company: 'LPU',
+    period: "Jun '25 – Jul '25",
+    description: [
+      'Conducted comprehensive data extraction, cleaning, and preprocessing activities using SQL and Python, ensuring well-structured datasets.',
+      'Designed, developed, and refined interactive dashboards and visual analytics reports in Power BI and Tableau to present insights clearly.',
+      'Utilized advanced Excel functions, pivot tables, data modeling features, and visualization tools to analyze large datasets and identify patterns.'
+    ],
+    stats: [
+      { value: '80+', label: 'Hours' },
+      { value: 'Data Analytics', label: 'Stack' },
+      { value: 'Tableau, Power BI, SQL', label: 'Tools' }
+    ]
   }
 ];
 
 const Experience = () => {
   return (
-    <section id="experience" className="py-24 bg-slate-900/20">
-      <div className="section-container">
+    <section id="training" className="py-24 bg-transparent">
+      <div className="section-container relative z-10 max-w-4xl mx-auto">
         <SectionTitle 
-          title="Professional Experience" 
-          subtitle="A summary of my professional journey and hands-on training." 
+          title="Training" 
+          subtitle="A summary of my hands-on training and technical development journey." 
         />
 
-        <div className="max-w-4xl mx-auto space-y-12">
-          {experiences.map((exp, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="relative pl-8 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gradient-to-b before:from-sky-500 before:to-transparent"
-            >
-              {/* Timeline Bullet */}
-              <div className="absolute left-[-5px] top-0 w-[11px] h-[11px] rounded-full bg-sky-500 shadow-[0_0_10px_rgba(14,165,233,0.5)]" />
+        <div className="relative mt-12">
+          {/* Vertical Line */}
+          <div className="absolute left-[5px] top-6 bottom-6 w-[2px] bg-white/5" />
 
-              <div className="glass p-8 rounded-[2rem] border border-slate-700/50 shadow-xl relative overflow-hidden group">
-                <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                  <div>
-                    <h3 className="text-2xl font-black text-white italic tracking-tight">{exp.title}</h3>
-                    <div className="flex items-center text-sky-400 font-bold mt-1">
-                      <Briefcase size={16} className="mr-2" />
-                      {exp.company}
-                      <span className="mx-2 text-slate-700">|</span>
-                      <a 
-                        href={exp.link} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="flex items-center hover:text-white transition-colors"
-                      >
-                        <LinkIcon size={14} className="mr-1" />
-                        LINK
-                      </a>
+          <div className="space-y-12 relative">
+            {experiences.map((exp, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="relative pl-8 md:pl-12 flex"
+              >
+                {/* Timeline Dot */}
+                <div className="absolute left-0 top-[2.25rem] -translate-y-1/2 w-3 h-3 rounded-full bg-[#8b5cf6] z-10" />
+
+                {/* Card */}
+                <div className="w-full bg-[#111111] border border-white/5 rounded-2xl p-6 md:p-8 hover:bg-[#161616] transition-colors">
+                  {/* Header */}
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                    <div className="flex items-center gap-4">
+                      <h3 className="text-xl md:text-2xl font-bold text-white tracking-wide">
+                        {exp.title}
+                      </h3>
+                      <span className="px-3 py-1 rounded bg-[#2b1836] text-[#c084fc] text-xs font-semibold tracking-wide">
+                        {exp.company}
+                      </span>
+                    </div>
+                    <div className="text-slate-400 text-sm font-medium whitespace-nowrap">
+                      {exp.period}
                     </div>
                   </div>
-                  <div className="flex items-center px-4 py-2 rounded-xl bg-slate-800/50 border border-slate-700 text-slate-300 text-sm font-bold">
-                    <Calendar size={16} className="mr-2 text-sky-400" />
-                    {exp.period}
+
+                  {/* Description List */}
+                  <ul className="space-y-4 mb-8">
+                    {exp.description.map((point, i) => (
+                      <li key={i} className="flex items-start text-slate-300 font-normal leading-relaxed text-sm">
+                        <span className="text-[#a855f7] text-[10px] mt-1 mr-3 shrink-0 selection-none">
+                          ▷
+                        </span>
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Stats Footer */}
+                  <div className="pt-6 border-t border-white/5">
+                    <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-6 sm:gap-12 lg:gap-16">
+                      {exp.stats.map((stat, i) => (
+                        <div key={i} className="flex flex-col text-left">
+                          <span className="text-[#a855f7] font-bold text-lg md:text-xl tracking-tight mb-1">
+                            {stat.value}
+                          </span>
+                          <span className="text-slate-400 text-xs font-medium tracking-wide">
+                            {stat.label}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
-
-                <ul className="space-y-4 mb-8">
-                  {exp.description.map((point, i) => (
-                    <li key={i} className="flex items-start text-slate-400 leading-relaxed font-medium">
-                      <span className="w-1.5 h-1.5 rounded-full bg-sky-500/50 mt-2.5 mr-3 shrink-0" />
-                      {point}
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="flex items-center pt-6 border-t border-slate-800">
-                  <Terminal size={18} className="text-sky-400 mr-3" />
-                  <div className="flex flex-wrap gap-2">
-                    <span className="text-xs font-black text-slate-500 uppercase tracking-widest mr-2">Tech Stack:</span>
-                    <span className="text-sm font-bold text-slate-300 italic">{exp.techStack}</span>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

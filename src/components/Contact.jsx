@@ -10,22 +10,55 @@ const Contact = () => {
     subject: '',
     message: ''
   });
+  const [status, setStatus] = useState({ state: 'idle', message: '' });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const { name, email, subject, message } = formData;
-    const body = `Name: ${name}\nEmail: ${email}\n\n${message}`;
-    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=amanjangra0210@gmail.com&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.open(gmailUrl, '_blank');
+    setStatus({ state: 'loading', message: 'Sending message...' });
+
+    // Using your provided access_key
+    const submissionData = {
+      ...formData,
+      access_key: "b9639a92-f26b-40c0-83e4-241d00f1eb36",
+      from_name: formData.name,
+      to_email: "amanjangra0210@gmail.com"
+    };
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(submissionData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Success! Your message has been sent.");
+        setStatus({ state: 'success', message: 'Message sent successfully!' });
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        // Reset state after 5 seconds
+        setTimeout(() => setStatus({ state: 'idle', message: '' }), 5000);
+      } else {
+        alert("Error: " + data.message);
+        setStatus({ state: 'error', message: "Error: " + data.message });
+      }
+    } catch (error) {
+      alert("Something went wrong. Please try again.");
+      setStatus({ state: 'error', message: 'Something went wrong. Please try again.' });
+    }
   };
 
   return (
-    <section id="contact" className="py-20 bg-slate-50 dark:bg-slate-900/50">
-      <div className="section-container">
+    <section id="connect" className="py-24 bg-transparent">
+      <div className="section-container relative z-10">
         <SectionTitle 
           title="Get In Touch" 
           subtitle="Let's connect." 
@@ -40,8 +73,8 @@ const Contact = () => {
             viewport={{ once: true }}
             className="space-y-8"
           >
-            <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800">
-               <h3 className="text-2xl font-bold mb-6 dark:text-white">Contact Information</h3>
+            <div className="bg-[#141414] p-8 rounded-2xl border border-white/5">
+               <h3 className="text-2xl font-black mb-6 text-white tracking-tight">Contact Information</h3>
                
                <div className="space-y-6">
                  <div className="flex items-center space-x-4">
@@ -49,7 +82,7 @@ const Contact = () => {
                      href="https://mail.google.com/mail/?view=cm&fs=1&to=amanjangra0210@gmail.com" 
                      target="_blank"
                      rel="noreferrer"
-                     className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-900/20 text-blue-600 flex items-center justify-center hover:scale-110 transition-transform"
+                     className="w-12 h-12 rounded-2xl bg-[#1a1a1a] border border-white/5 text-blue-500 flex items-center justify-center hover:scale-110 transition-transform"
                    >
                      <Mail size={24} />
                    </a>
@@ -60,7 +93,7 @@ const Contact = () => {
                  </div>
 
                  <div className="flex items-center space-x-4">
-                   <a href="tel:+918950864892" className="w-12 h-12 rounded-2xl bg-purple-50 dark:bg-purple-900/20 text-purple-600 flex items-center justify-center hover:scale-110 transition-transform">
+                   <a href="tel:+918950864892" className="w-12 h-12 rounded-2xl bg-[#1a1a1a] border border-[#262626] text-purple-400 flex items-center justify-center hover:scale-110 transition-transform">
                      <Phone size={24} />
                    </a>
                    <div>
@@ -70,7 +103,7 @@ const Contact = () => {
                  </div>
                </div>
 
-               <div className="mt-8 pt-8 border-t border-slate-100 dark:border-slate-800">
+               <div className="mt-8 pt-8 border-t border-[#262626]">
                  <h4 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Social Profiles</h4>
                  <div className="flex space-x-4">
                     {[
@@ -83,7 +116,7 @@ const Contact = () => {
                         href={social.link} 
                         target="_blank"
                         rel="noreferrer"
-                        className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all transform hover:scale-110"
+                        className="w-10 h-10 rounded-full bg-[#1a1a1a] border border-[#262626] text-slate-400 flex items-center justify-center hover:bg-purple-600 hover:text-white transition-all transform hover:scale-110"
                       >
                         {social.icon}
                       </a>
@@ -100,7 +133,7 @@ const Contact = () => {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-6">
+            <form onSubmit={handleSubmit} className="bg-[#141414] p-8 rounded-2xl border border-white/5 space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2 uppercase tracking-wide">Full Name</label>
@@ -111,7 +144,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     placeholder="Name"
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white transition-all"
+                    className="w-full px-4 py-3 rounded-xl border border-white/5 bg-[#0a0a0a] text-white focus:outline-none focus:border-purple-500 transition-all autofill:bg-[#0a0a0a] autofill:text-white [-webkit-box-shadow:0_0_0_50px_#0a0a0a_inset] [-webkit-text-fill-color:#fff]"
                   />
                 </div>
                 <div>
@@ -123,7 +156,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     placeholder="name@example.com"
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white transition-all"
+                    className="w-full px-4 py-3 rounded-xl border border-white/5 bg-[#0a0a0a] text-white focus:outline-none focus:border-purple-500 transition-all autofill:bg-[#0a0a0a] autofill:text-white [-webkit-box-shadow:0_0_0_50px_#0a0a0a_inset] [-webkit-text-fill-color:#fff]"
                   />
                 </div>
               </div>
@@ -136,7 +169,7 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                   placeholder="Subject"
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white transition-all"
+                  className="w-full px-4 py-3 rounded-xl border border-white/5 bg-[#0a0a0a] text-white focus:outline-none focus:border-purple-500 transition-all autofill:bg-[#0a0a0a] autofill:text-white [-webkit-box-shadow:0_0_0_50px_#0a0a0a_inset] [-webkit-text-fill-color:#fff]"
                 />
               </div>
               <div>
@@ -148,13 +181,41 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                   placeholder="Your message here..."
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white transition-all"
+                  className="w-full px-4 py-3 rounded-xl border border-white/5 bg-[#0a0a0a] text-white focus:outline-none focus:border-purple-500 transition-all resize-none autofill:bg-[#0a0a0a] autofill:text-white [-webkit-box-shadow:0_0_0_50px_#0a0a0a_inset] [-webkit-text-fill-color:#fff]"
                 ></textarea>
               </div>
-              <button type="submit" className="btn-primary w-full justify-center space-x-2 py-4 text-lg font-bold shadow-blue-500/20 shadow-xl flex items-center">
-                <Send size={20} />
-                <span>Send Message</span>
-              </button>
+              {status.state === 'success' ? (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="w-full py-6 rounded-xl bg-green-500/10 border border-green-500/20 flex flex-col items-center justify-center space-y-2 text-center"
+                >
+                  <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center text-white mb-2 shadow-[0_0_20px_rgba(34,197,94,0.4)]">
+                    <Send size={24} />
+                  </div>
+                  <h4 className="text-xl font-black text-white tracking-tight">Success!</h4>
+                  <p className="text-green-400 font-bold text-sm tracking-tight px-4">Your message has been delivered to Aman.</p>
+                </motion.div>
+              ) : (
+                <button 
+                  type="submit" 
+                  disabled={status.state === 'loading'}
+                  className={`btn-primary w-full justify-center space-x-2 py-4 text-lg font-bold shadow-purple-500/20 shadow-xl flex items-center group transition-all duration-300 ${status.state === 'loading' ? 'opacity-70 scale-95' : 'hover:scale-[1.02]'}`}
+                >
+                  {status.state === 'loading' ? (
+                    <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  ) : (
+                    <>
+                      <Send size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                      <span>Send Message</span>
+                    </>
+                  )}
+                </button>
+              )}
+              
+              {status.state === 'error' && (
+                 <p className="text-red-400 text-sm text-center font-bold tracking-tight animate-pulse mt-4">{status.message}</p>
+              )}
             </form>
           </motion.div>
         </div>
